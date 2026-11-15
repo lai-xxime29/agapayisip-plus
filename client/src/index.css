@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Design tokens taken from the Figma file "AgapayIsip+ Initial UI Dashboards" */
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+
+  --color-brand-deep: #0b3c44;
+  --color-brand-teal: #0f6a71;
+  --color-brand-mint: #7fd6cf;
+
+  --color-sb-active: #1a5b63;
+  --color-sb-text: #d5e6e5;
+  --color-sb-muted: #8fb1b3;
+  --color-sb-line: #205a62;
+
+  --color-ink: #12292e;
+  --color-muted: #5b6b70;
+  --color-line: #dce6e5;
+  --color-field: #f4f8f7;
+  --color-mist: #ebf2f1;
+
+  --color-st-green: #25643f;
+  --color-st-amber: #7a5410;
+  --color-st-red: #a32f24;
+  --color-st-blue: #1f4e80;
+
+  --color-tint-teal: #d6ebea;
+  --color-tint-green: #ddeee3;
+  --color-tint-amber: #fbebc9;
+  --color-tint-red: #fbe0db;
+  --color-tint-blue: #dce7f3;
+  --color-tint-gray: #e5eceb;
+
+  --color-offline-bg: #5b4410;
+  --color-offline-text: #f4e4b5;
+}
+
+body {
+  @apply bg-mist text-ink antialiased font-sans;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
