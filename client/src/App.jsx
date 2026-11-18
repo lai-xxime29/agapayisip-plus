@@ -35,6 +35,8 @@ export default function App() {
           <Route path="/home-visits" element={<ComingSoon title="Home visit tasks" />} />
           <Route path="/reminders" element={<ComingSoon title="Reminders" />} />
           <Route path="/register-patient" element={<ComingSoon title="Register patient" />} />
+          <Route path="/new-observation" element={<ComingSoon title="New observation" />} />
+          <Route path="/new-referral" element={<ComingSoon title="New referral" />} />
         </Route>
       </Route>
 

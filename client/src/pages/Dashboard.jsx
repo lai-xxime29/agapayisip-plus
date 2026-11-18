@@ -1,9 +1,11 @@
 import { useAuth } from '../lib/AuthContext'
 import { ROLE_LABELS } from '../lib/nav'
+import BhwDashboard from './BhwDashboard'
 
-// Placeholder. Each role's dashboard from the Figma file replaces this, one by one.
+// Each role's dashboard from the Figma file replaces its placeholder, one by one.
 export default function Dashboard() {
   const { profile } = useAuth()
+  if (profile.role === 'bhw') return <BhwDashboard />
   const first = profile.full_name.split(' ')[0]
   return (
     <div>

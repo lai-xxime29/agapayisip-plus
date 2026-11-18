@@ -32,6 +32,9 @@
   --color-tint-blue: #dce7f3;
   --color-tint-gray: #e5eceb;
 
+  --color-row-red: #fdeeeb;
+  --color-row-amber: #fef6e1;
+
   --color-offline-bg: #5b4410;
   --color-offline-text: #f4e4b5;
 }
