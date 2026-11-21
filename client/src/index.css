@@ -43,7 +43,9 @@ body {
   @apply bg-mist text-ink antialiased font-sans;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-serif);
-  font-weight: 600;
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
 }

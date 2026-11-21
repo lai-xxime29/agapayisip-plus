@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { NAV, ROLE_LABELS } from '../lib/nav'
@@ -12,7 +12,15 @@ function initials(name) {
 export default function DashboardLayout() {
   const { profile } = useAuth()
   const [open, setOpen] = useState(false)
+  const [q, setQ] = useState('')
+  const navigate = useNavigate()
+  const canSearch = profile.role === 'bhw' || profile.role === 'psychiatrist'
   const items = NAV[profile.role] ?? NAV.patient
+
+  function search(e) {
+    e.preventDefault()
+    navigate(q.trim() ? `/patients?q=${encodeURIComponent(q.trim())}` : '/patients')
+  }
 
   const sidebar = (
     <aside className="w-56 shrink-0 bg-brand-deep text-sb-text flex flex-col h-full">
@@ -72,11 +80,17 @@ export default function DashboardLayout() {
           >
             Menu
           </button>
-          <input
-            className="flex-1 max-w-md rounded-lg border border-line bg-field px-3 py-2 text-sm"
-            placeholder="Search by patient ID or purok"
-            aria-label="Search"
-          />
+          {canSearch && (
+            <form onSubmit={search} className="flex-1 max-w-md">
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                className="w-full rounded-lg border border-line bg-field px-3 py-2 text-sm"
+                placeholder="Search by patient ID, name or purok"
+                aria-label="Search patients"
+              />
+            </form>
+          )}
           <div className="ml-auto inline-flex rounded-md border border-line overflow-hidden text-xs font-medium">
             <span className="bg-brand-teal text-white px-3 py-1.5">English</span>
             <span className="px-3 py-1.5 text-muted">Bisaya</span>

@@ -4,6 +4,10 @@ import DashboardLayout from './components/DashboardLayout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ComingSoon from './pages/ComingSoon'
+import Patients from './pages/Patients'
+import RegisterPatient from './pages/RegisterPatient'
+import NewObservation from './pages/NewObservation'
+import Referrals from './pages/Referrals'
 
 export default function App() {
   return (
@@ -22,8 +26,8 @@ export default function App() {
       {/* BHW + Psychiatrist (clinical staff) */}
       <Route element={<ProtectedRoute allowedRoles={['bhw', 'psychiatrist']} />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/patients" element={<ComingSoon title="Patients" />} />
-          <Route path="/referrals" element={<ComingSoon title="Referrals" />} />
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/referrals" element={<Referrals />} />
           <Route path="/appointments" element={<ComingSoon title="Appointments" />} />
           <Route path="/team-notes" element={<ComingSoon title="Team notes" />} />
         </Route>
@@ -34,9 +38,9 @@ export default function App() {
         <Route element={<DashboardLayout />}>
           <Route path="/home-visits" element={<ComingSoon title="Home visit tasks" />} />
           <Route path="/reminders" element={<ComingSoon title="Reminders" />} />
-          <Route path="/register-patient" element={<ComingSoon title="Register patient" />} />
-          <Route path="/new-observation" element={<ComingSoon title="New observation" />} />
-          <Route path="/new-referral" element={<ComingSoon title="New referral" />} />
+          <Route path="/register-patient" element={<RegisterPatient />} />
+          <Route path="/new-observation" element={<NewObservation />} />
+          <Route path="/new-referral" element={<Referrals />} />
         </Route>
       </Route>
 
