@@ -158,6 +158,16 @@ for (const bhwName of ['lmontecillo', 'rcabahug', 'jvillaruz']) {
   ]))
 }
 
+// Appointments for the two patient logins, so the patient portal has something to show
+for (const p of withCare.slice(0, 2)) {
+  check('patient portal appointments', await sb.from('appointments').insert([
+    { patient_id: p.id, clinician_id: doctor, scheduled_at: days(3), status: 'upcoming' },
+    { patient_id: p.id, clinician_id: doctor, scheduled_at: days(-14), status: 'completed' },
+    { patient_id: p.id, clinician_id: doctor, scheduled_at: days(-28), status: 'completed' },
+    { patient_id: p.id, clinician_id: doctor, scheduled_at: days(-42), status: 'missed' },
+  ]))
+}
+
 console.log(`\nDone. Demo logins (password for all: ${PASSWORD})`)
 for (const u of [...USERS, { username: 'patient01', role: 'patient' }, { username: 'patient02', role: 'patient' }])
   console.log(`  ${u.username.padEnd(12)} ${u.role}`)

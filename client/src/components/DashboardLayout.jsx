@@ -80,6 +80,7 @@ export default function DashboardLayout() {
           >
             Menu
           </button>
+          {profile.role === 'patient' && <span className="text-sm text-muted">Patient portal</span>}
           {canSearch && (
             <form onSubmit={search} className="flex-1 max-w-md">
               <input

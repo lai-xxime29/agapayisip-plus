@@ -82,14 +82,19 @@ export default function Patients() {
         {rows === null && !error && <p className="p-5 text-sm text-muted">Loading…</p>}
         {rows && (
           <>
-            <Table heads={['Patient', 'Care phase', 'Risk', 'Caretaker']}>
-              {rows.length === 0 && <tr><td colSpan={4} className="px-5 py-4 text-muted">{q ? `No patients match "${q}".` : 'No patients yet.'}</td></tr>}
+            <Table heads={profile.role === 'psychiatrist' ? ['Patient', 'Care phase', 'Risk', 'Caretaker', ''] : ['Patient', 'Care phase', 'Risk', 'Caretaker']}>
+              {rows.length === 0 && <tr><td colSpan={5} className="px-5 py-4 text-muted">{q ? `No patients match "${q}".` : 'No patients yet.'}</td></tr>}
               {rows.map((p) => (
                 <tr key={p.patient_id}>
                   <td className="px-5 py-2.5"><PatientCell id={p.patient_id} patient={p} fullName={names[p.patient_id]} /></td>
                   <td className="px-5 py-2.5">{PHASE[p.case_phase]}</td>
                   <td className="px-5 py-2.5"><Badge tone={RISK_TONE[p.risk_level]}>{p.risk_level[0].toUpperCase() + p.risk_level.slice(1)}</Badge></td>
                   <td className="px-5 py-2.5 text-muted">{p.has_caretaker ? 'Yes' : 'No (solo)'}</td>
+                  {profile.role === 'psychiatrist' && (
+                    <td className="px-5 py-2.5 text-right">
+                      <Link to={`/consultations/${p.patient_id}`} className="rounded-lg border border-line bg-white px-3 py-1.5 text-sm font-semibold">Open</Link>
+                    </td>
+                  )}
                 </tr>
               ))}
             </Table>

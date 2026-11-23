@@ -1,11 +1,15 @@
 import { useAuth } from '../lib/AuthContext'
 import { ROLE_LABELS } from '../lib/nav'
 import BhwDashboard from './BhwDashboard'
+import PsychDashboard from './PsychDashboard'
+import PatientHome from './PatientHome'
 
 // Each role's dashboard from the Figma file replaces its placeholder, one by one.
 export default function Dashboard() {
   const { profile } = useAuth()
   if (profile.role === 'bhw') return <BhwDashboard />
+  if (profile.role === 'psychiatrist') return <PsychDashboard />
+  if (profile.role === 'patient') return <PatientHome />
   const first = profile.full_name.split(' ')[0]
   return (
     <div>

@@ -20,8 +20,9 @@ export const NAV = {
   psychiatrist: [
     { label: 'Dashboard', to: '/dashboard' },
     { label: 'Patients', to: '/patients' },
-    { label: 'Referrals', to: '/referrals' },
+    { label: 'Referral queue', to: '/referrals' },
     { label: 'Appointments', to: '/appointments' },
+    { label: 'Reschedules', to: '/reschedules' },
     { label: 'Team notes', to: '/team-notes' },
   ],
   coordinator: [{ label: 'Overview', to: '/dashboard' }],
@@ -31,5 +32,8 @@ export const NAV = {
     { label: 'Audit log', to: '/audit-log' },
     { label: 'Patient archive', to: '/archive' },
   ],
-  patient: [{ label: 'Home', to: '/dashboard' }],
+  patient: [
+    { label: 'Home', to: '/dashboard' },
+    { label: 'My appointments', to: '/my-appointments' },
+  ],
 }

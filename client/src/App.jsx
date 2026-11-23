@@ -8,6 +8,10 @@ import Patients from './pages/Patients'
 import RegisterPatient from './pages/RegisterPatient'
 import NewObservation from './pages/NewObservation'
 import Referrals from './pages/Referrals'
+import Consultation from './pages/Consultation'
+import Reschedules from './pages/Reschedules'
+import MyAppointments from './pages/MyAppointments'
+import CannotAttend from './pages/CannotAttend'
 
 export default function App() {
   return (
@@ -30,6 +34,26 @@ export default function App() {
           <Route path="/referrals" element={<Referrals />} />
           <Route path="/appointments" element={<ComingSoon title="Appointments" />} />
           <Route path="/team-notes" element={<ComingSoon title="Team notes" />} />
+        </Route>
+      </Route>
+
+      {/* Patient / caretaker */}
+      <Route element={<ProtectedRoute allowedRoles={['patient']} />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/my-appointments" element={<MyAppointments />} />
+        </Route>
+      </Route>
+      <Route element={<ProtectedRoute allowedRoles={['patient', 'bhw']} />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/cannot-attend/:appointmentId" element={<CannotAttend />} />
+        </Route>
+      </Route>
+
+      {/* Psychiatrist only */}
+      <Route element={<ProtectedRoute allowedRoles={['psychiatrist']} />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/consultations/:patientId" element={<Consultation />} />
+          <Route path="/reschedules" element={<Reschedules />} />
         </Route>
       </Route>
 

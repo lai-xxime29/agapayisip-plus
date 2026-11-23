@@ -6,12 +6,19 @@ import { usePatientOptions } from '../lib/usePatientOptions'
 import { REF_TONE, referralStatusText } from '../lib/labels'
 import { referredLabel } from '../lib/format'
 import { Badge, PatientCell, Table, GhostButton } from '../components/ui'
-import ComingSoon from './ComingSoon'
+import ReferralQueue from '../components/ReferralQueue'
 
 export default function Referrals() {
   const { profile } = useAuth()
-  // The psychiatrist's referral queue is built later; the BHW referral screen comes from the Figma design.
-  if (profile.role !== 'bhw') return <ComingSoon title="Referral queue" />
+  if (profile.role !== 'bhw') {
+    return (
+      <div className="max-w-[1100px]">
+        <h1 className="text-3xl">Referral queue</h1>
+        <p className="text-sm text-muted mt-1 mb-5">Urgent referrals come first. Mark a patient Arrived when they reach the RHU.</p>
+        <ReferralQueue />
+      </div>
+    )
+  }
   return <BhwReferrals />
 }
 

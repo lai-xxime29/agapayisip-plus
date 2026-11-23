@@ -11,7 +11,7 @@ const BADGE = {
 
 export function Badge({ tone = 'gray', children }) {
   return (
-    <span className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${BADGE[tone]}`}>
+    <span className={`inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${BADGE[tone]}`}>
       {children}
     </span>
   )
