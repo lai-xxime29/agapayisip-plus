@@ -19,12 +19,26 @@ export default function Login() {
     setBusy(true)
     // Accept "admin" or a pasted "admin@agapayisip.local"
     const clean = username.trim().replace(/@agapayisip\.local$/i, '')
+    const { data: locked } = await supabase.rpc('login_lock_seconds', { p_username: clean })
+    if (locked > 0) {
+      setBusy(false)
+      setError(`This account is locked. Try again in ${Math.ceil(locked / 60)} minute${locked > 60 ? 's' : ''}.`)
+      return
+    }
     const { error } = await supabase.auth.signInWithPassword({
       email: usernameToEmail(clean),
       password,
     })
+    if (error) {
+      const { data: nowLocked } = await supabase.rpc('record_login_failure', { p_username: clean })
+      setBusy(false)
+      setError(nowLocked > 0
+        ? 'Too many wrong attempts. This account is locked for 15 minutes.'
+        : 'Wrong username or password.')
+      return
+    }
+    supabase.rpc('clear_login_failures', { p_username: clean })
     setBusy(false)
-    if (error) setError('Wrong username or password.')
   }
 
   // Already signed in: go to the page they were trying to open, or the dashboard

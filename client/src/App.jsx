@@ -18,6 +18,7 @@ import TeamNotes from './pages/TeamNotes'
 import Users from './pages/Users'
 import AuditLog from './pages/AuditLog'
 import Archive from './pages/Archive'
+import Privacy from './pages/Privacy'
 
 export default function App() {
   return (
@@ -25,6 +26,11 @@ export default function App() {
       {/* Public */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Login />} />
+
+      {/* Privacy notice: shown once, right after the first sign-in */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/privacy" element={<Privacy />} />
+      </Route>
 
       {/* Signed-in users (any role) */}
       <Route element={<ProtectedRoute />}>

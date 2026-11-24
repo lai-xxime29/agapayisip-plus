@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
     ;(async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('user_id, username, full_name, role, purok_assigned, status')
+        .select('user_id, username, full_name, role, purok_assigned, status, consent_at')
         .eq('user_id', session.user.id)
         .single()
       if (cancelled) return
@@ -42,10 +42,17 @@ export function AuthProvider({ children }) {
 
   useInactivityLogout(!!session, () => setNotice('You were signed out after 30 minutes of inactivity.'))
 
+  async function acceptPrivacy() {
+    const { error } = await supabase.rpc('accept_privacy_notice')
+    if (error) return error.message
+    setProfile((p) => ({ ...p, consent_at: new Date().toISOString() }))
+    return ''
+  }
+
   const loading = session === undefined || (!!session && !profile)
 
   return (
-    <AuthContext.Provider value={{ session, profile, loading, notice }}>
+    <AuthContext.Provider value={{ session, profile, loading, notice, acceptPrivacy }}>
       {children}
     </AuthContext.Provider>
   )

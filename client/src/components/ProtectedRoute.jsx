@@ -8,6 +8,8 @@ export default function ProtectedRoute({ allowedRoles }) {
 
   if (loading) return <p className="p-6">Loading…</p>
   if (!session) return <Navigate to="/login" replace state={{ from: location }} />
+  // First sign-in: the privacy notice must be accepted before anything else
+  if (!profile.consent_at && location.pathname !== '/privacy') return <Navigate to="/privacy" replace />
   if (allowedRoles && !allowedRoles.includes(profile.role)) {
     return <Navigate to="/dashboard" replace />
   }
