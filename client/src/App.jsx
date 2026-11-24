@@ -3,7 +3,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 import DashboardLayout from './components/DashboardLayout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import ComingSoon from './pages/ComingSoon'
 import Patients from './pages/Patients'
 import RegisterPatient from './pages/RegisterPatient'
 import NewObservation from './pages/NewObservation'
@@ -12,6 +11,13 @@ import Consultation from './pages/Consultation'
 import Reschedules from './pages/Reschedules'
 import MyAppointments from './pages/MyAppointments'
 import CannotAttend from './pages/CannotAttend'
+import HomeVisits from './pages/HomeVisits'
+import Appointments from './pages/Appointments'
+import Reminders from './pages/Reminders'
+import TeamNotes from './pages/TeamNotes'
+import Users from './pages/Users'
+import AuditLog from './pages/AuditLog'
+import Archive from './pages/Archive'
 
 export default function App() {
   return (
@@ -32,8 +38,8 @@ export default function App() {
         <Route element={<DashboardLayout />}>
           <Route path="/patients" element={<Patients />} />
           <Route path="/referrals" element={<Referrals />} />
-          <Route path="/appointments" element={<ComingSoon title="Appointments" />} />
-          <Route path="/team-notes" element={<ComingSoon title="Team notes" />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/team-notes" element={<TeamNotes />} />
         </Route>
       </Route>
 
@@ -60,8 +66,8 @@ export default function App() {
       {/* BHW only */}
       <Route element={<ProtectedRoute allowedRoles={['bhw']} />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/home-visits" element={<ComingSoon title="Home visit tasks" />} />
-          <Route path="/reminders" element={<ComingSoon title="Reminders" />} />
+          <Route path="/home-visits" element={<HomeVisits />} />
+          <Route path="/reminders" element={<Reminders />} />
           <Route path="/register-patient" element={<RegisterPatient />} />
           <Route path="/new-observation" element={<NewObservation />} />
           <Route path="/new-referral" element={<Referrals />} />
@@ -71,9 +77,9 @@ export default function App() {
       {/* Administrator only */}
       <Route element={<ProtectedRoute allowedRoles={['administrator']} />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/users" element={<ComingSoon title="User accounts" />} />
-          <Route path="/audit-log" element={<ComingSoon title="Audit log" />} />
-          <Route path="/archive" element={<ComingSoon title="Patient archive" />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/audit-log" element={<AuditLog />} />
+          <Route path="/archive" element={<Archive />} />
         </Route>
       </Route>
 
