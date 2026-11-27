@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { longDate, time12, dayLabel } from '../lib/format'
 import { Badge } from '../components/ui'
+import { useLang } from '../lib/i18n'
 
 const CLINIC = import.meta.env.VITE_CLINIC_NAME || 'RHU Dalaguete'
 const REASONS = [
@@ -22,6 +23,7 @@ function nextDays(n) {
 
 export default function CannotAttend() {
   const { appointmentId } = useParams()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [appt, setAppt] = useState(undefined)
   const [doctor, setDoctor] = useState('')
@@ -40,7 +42,7 @@ export default function CannotAttend() {
         setAppt(data ?? null)
         if (data) {
           const { data: p } = await supabase.from('profiles').select('full_name').eq('user_id', data.clinician_id).maybeSingle()
-          setDoctor(p?.full_name ?? 'Your doctor')
+          setDoctor(p?.full_name ?? '')
         }
       })
   }, [appointmentId])
@@ -56,25 +58,26 @@ export default function CannotAttend() {
     setSent(true)
   }
 
-  if (appt === undefined) return <p className="text-sm text-muted">Loading…</p>
-  if (appt === null) return <p role="alert" className="text-sm text-st-red">That appointment was not found.</p>
+  if (appt === undefined) return <p className="text-sm text-muted">{t('Loading…')}</p>
+  if (appt === null) return <p role="alert" className="text-sm text-st-red">{t('That appointment was not found.')}</p>
 
   if (sent) {
     return (
       <div className="max-w-md rounded-xl border border-line bg-white p-6">
-        <h1 className="text-2xl">Request sent</h1>
-        <p className="text-sm text-muted mt-2">{doctor} will choose a new date and you will get a message. Until then your appointment shows as "Reschedule requested".</p>
-        <Link to="/dashboard" className="mt-5 inline-block rounded-lg bg-brand-teal text-white px-4 py-2 text-sm font-semibold">Back to home</Link>
+        <h1 className="text-2xl">{t('Request sent')}</h1>
+        <p className="text-sm text-muted mt-2">{t('{doctor} will choose a new date and you will get a message. Until then your appointment shows as "Reschedule requested".', { doctor: doctor || t('Your doctor') })}</p>
+        <Link to="/dashboard" className="mt-5 inline-block rounded-lg bg-brand-teal text-white px-4 py-2 text-sm font-semibold">{t('Back to home')}</Link>
       </div>
     )
   }
 
   const when = new Date(appt.scheduled_at)
+  const doc = doctor || t('Your doctor')
   return (
     <div className="max-w-[1100px]">
-      <Link to="/dashboard" className="text-sm font-semibold text-brand-teal">← Back to home</Link>
-      <h1 className="text-3xl mt-4">I cannot attend</h1>
-      <p className="text-sm text-muted mt-1">Tell the clinic why you cannot come. {doctor} will choose a new date.</p>
+      <Link to="/dashboard" className="text-sm font-semibold text-brand-teal">{t('← Back to home')}</Link>
+      <h1 className="text-3xl mt-4">{t('I cannot attend')}</h1>
+      <p className="text-sm text-muted mt-1">{t('Tell the clinic why you cannot come. {doctor} will choose a new date.', { doctor: doc })}</p>
 
       {error && <p role="alert" className="mt-4 rounded-lg bg-tint-red text-st-red text-sm px-4 py-3">{error}</p>}
 
@@ -84,26 +87,26 @@ export default function CannotAttend() {
             <div className="size-11 rounded-lg bg-tint-blue text-st-blue grid place-items-center text-sm font-semibold">{when.getDate()}</div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold">{longDate(when)}, {time12(when)}</p>
-              <p className="text-xs text-muted">{doctor}, {CLINIC}</p>
+              <p className="text-xs text-muted">{doc}, {CLINIC}</p>
             </div>
-            <Badge tone="blue">Upcoming</Badge>
+            <Badge tone="blue">{t('Upcoming')}</Badge>
           </div>
 
           <fieldset className="rounded-xl border border-line bg-white">
-            <legend className="sr-only">Why can't you come?</legend>
-            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">Why can't you come?</h2>
+            <legend className="sr-only">{t("Why can't you come?")}</legend>
+            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">{t("Why can't you come?")}</h2>
             <div className="p-5 grid gap-3 sm:grid-cols-2">
               {REASONS.map(([value, label]) => (
                 <label key={value} className={`flex items-center gap-3 rounded-lg border px-4 py-3.5 text-sm cursor-pointer ${reason === value ? 'border-brand-teal bg-tint-teal' : 'border-line bg-white'}`}>
                   <input type="radio" name="reason" value={value} checked={reason === value} onChange={() => setReason(value)} className="size-4 accent-brand-teal" />
-                  {label}
+                  {t(label)}
                 </label>
               ))}
             </div>
           </fieldset>
 
           <section className="rounded-xl border border-line bg-white">
-            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">Which day is better for you?</h2>
+            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">{t('Which day is better for you?')}</h2>
             <div className="p-5">
               <div className="flex flex-wrap gap-3">
                 {chips.map((c) => (
@@ -111,35 +114,35 @@ export default function CannotAttend() {
                     {dayLabel(`${c}T00:00`)}
                   </button>
                 ))}
-                <button type="button" onClick={() => setDay('other')} className={`rounded-lg border px-4 py-2.5 text-sm font-semibold ${day === 'other' ? 'border-brand-teal bg-tint-teal text-brand-teal' : 'border-line bg-white'}`}>Another day</button>
+                <button type="button" onClick={() => setDay('other')} className={`rounded-lg border px-4 py-2.5 text-sm font-semibold ${day === 'other' ? 'border-brand-teal bg-tint-teal text-brand-teal' : 'border-line bg-white'}`}>{t('Another day')}</button>
               </div>
               {day === 'other' && (
-                <label className="block mt-3 text-xs font-semibold">Choose a day
+                <label className="block mt-3 text-xs font-semibold">{t('Choose a day')}
                   <input type="date" min={tomorrow} value={custom} onChange={(e) => setCustom(e.target.value)} className="mt-1 block rounded-lg border border-line px-3 py-2 text-sm" />
                 </label>
               )}
-              <p className="text-xs text-muted mt-3">Pick a day after today. The doctor makes the final choice and you will get a message.</p>
+              <p className="text-xs text-muted mt-3">{t('Pick a day after today. The doctor makes the final choice and you will get a message.')}</p>
             </div>
           </section>
 
           <div className="flex gap-3">
-            <button onClick={send} disabled={!canSend} className="rounded-lg bg-brand-teal text-white px-6 py-3 text-sm font-semibold disabled:opacity-50">{busy ? 'Sending…' : 'Send request'}</button>
-            <button onClick={() => navigate(-1)} className="rounded-lg border border-line bg-white px-6 py-3 text-sm font-semibold">Go back</button>
+            <button onClick={send} disabled={!canSend} className="rounded-lg bg-brand-teal text-white px-6 py-3 text-sm font-semibold disabled:opacity-50">{busy ? t('Sending…') : t('Send request')}</button>
+            <button onClick={() => navigate(-1)} className="rounded-lg border border-line bg-white px-6 py-3 text-sm font-semibold">{t('Go back')}</button>
           </div>
         </div>
 
         <aside className="space-y-4">
           <section className="rounded-xl border border-line bg-white">
-            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">What happens next</h2>
+            <h2 className="px-5 py-4 text-base font-sans font-semibold border-b border-line">{t('What happens next')}</h2>
             <ol className="p-5 space-y-3 text-sm">
-              <li><p className="font-semibold">Your request goes to the doctor</p><p className="text-xs text-muted">It appears on the doctor's list within seconds.</p></li>
-              <li><p className="font-semibold">You get a message with the new date</p><p className="text-xs text-muted">It shows the clinic, date, and time only.</p></li>
-              <li><p className="font-semibold">Your BHW is told too</p><p className="text-xs text-muted">They will know your new date.</p></li>
+              <li><p className="font-semibold">{t('Your request goes to the doctor')}</p><p className="text-xs text-muted">{t("It appears on the doctor's list within seconds.")}</p></li>
+              <li><p className="font-semibold">{t('You get a message with the new date')}</p><p className="text-xs text-muted">{t('It shows the clinic, date, and time only.')}</p></li>
+              <li><p className="font-semibold">{t('Your BHW is told too')}</p><p className="text-xs text-muted">{t('They will know your new date.')}</p></li>
             </ol>
           </section>
           <section className="rounded-xl bg-tint-teal p-5 text-sm">
-            <p className="font-semibold">Until then</p>
-            <p className="mt-1">Your appointment stays on your list as "Reschedule requested".</p>
+            <p className="font-semibold">{t('Until then')}</p>
+            <p className="mt-1">{t('Your appointment stays on your list as "Reschedule requested".')}</p>
           </section>
         </aside>
       </div>

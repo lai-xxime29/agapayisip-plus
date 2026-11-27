@@ -43,7 +43,7 @@ export function Lock() {
 export function PatientCell({ id, patient, fullName }) {
   return (
     <div>
-      <p className="font-semibold text-sm">{id}</p>
+      <p className="font-semibold text-sm whitespace-nowrap">{id}</p>
       <p className="text-xs text-muted">
         {fullName ? fullName : <><Lock />{patient?.initials}</>}
         {patient?.purok ? `, ${patient.purok}` : ''}

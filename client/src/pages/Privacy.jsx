@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import Logo from '../components/Logo'
+import { useLang } from '../lib/i18n'
 
 const SECTIONS = [
   ['Who we are', 'AgapayIsip+ is run by the Rural Health Unit (RHU) and the barangay health centers of the Municipality of Dalaguete, Cebu, to keep track of mental health care and follow-up visits.'],
@@ -16,6 +17,7 @@ const SECTIONS = [
 
 export default function Privacy() {
   const { profile, acceptPrivacy } = useAuth()
+  const { t } = useLang()
   const [agree, setAgree] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -33,31 +35,31 @@ export default function Privacy() {
     <main className="min-h-screen bg-field">
       <header className="bg-brand-deep px-6 py-4"><Logo /></header>
       <div className="mx-auto max-w-2xl px-5 py-8">
-        <h1 className="text-3xl">Privacy notice</h1>
-        <p className="text-sm text-muted mt-1">Please read this before you continue, {profile.full_name.split(' ')[0]}.</p>
+        <h1 className="text-3xl">{t('Privacy notice')}</h1>
+        <p className="text-sm text-muted mt-1">{t('Please read this before you continue, {name}.', { name: profile.full_name.split(' ')[0] })}</p>
 
         <div className="mt-5 rounded-xl border border-line bg-white divide-y divide-line">
-          {SECTIONS.map(([h, t]) => (
+          {SECTIONS.map(([h, body]) => (
             <section key={h} className="p-5">
-              <h2 className="text-base font-sans font-semibold">{h}</h2>
-              <p className="mt-1 text-sm text-ink/80">{t}</p>
+              <h2 className="text-base font-sans font-semibold">{t(h)}</h2>
+              <p className="mt-1 text-sm text-ink/80">{t(body)}</p>
             </section>
           ))}
         </div>
 
         <label className="mt-5 flex items-start gap-3 text-sm">
           <input type="checkbox" className="mt-1 h-4 w-4" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-          <span>I have read this notice and I agree to the use of my information as described.</span>
+          <span>{t('I have read this notice and I agree to the use of my information as described.')}</span>
         </label>
 
         {error && <p role="alert" className="mt-3 text-sm text-st-red">{error}</p>}
         <div className="mt-4 flex gap-3">
           <button onClick={accept} disabled={!agree || busy}
             className="rounded-lg bg-brand-teal text-white px-5 py-2.5 text-sm font-semibold disabled:opacity-50">
-            {busy ? 'Saving…' : 'I agree and continue'}
+            {busy ? t('Saving…') : t('I agree and continue')}
           </button>
           <button onClick={() => supabase.auth.signOut()} className="rounded-lg border border-line bg-white px-5 py-2.5 text-sm font-semibold">
-            Decline and sign out
+            {t('Decline and sign out')}
           </button>
         </div>
       </div>
