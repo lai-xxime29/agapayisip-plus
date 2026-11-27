@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { NAV, ROLE_LABELS } from '../lib/nav'
 import Logo from './Logo'
+import { useLang, LangToggle } from '../lib/i18n'
 
 function initials(name) {
   return name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase()
@@ -11,6 +12,7 @@ function initials(name) {
 
 export default function DashboardLayout() {
   const { profile } = useAuth()
+  const { t } = useLang()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
   const navigate = useNavigate()
@@ -37,7 +39,7 @@ export default function DashboardLayout() {
               }`
             }
           >
-            {label}
+            {t(label)}
           </NavLink>
         ))}
       </nav>
@@ -55,7 +57,7 @@ export default function DashboardLayout() {
           onClick={() => supabase.auth.signOut()}
           className="text-xs text-sb-muted hover:text-white"
         >
-          Log out
+          {t('Log out')}
         </button>
       </div>
     </aside>
@@ -78,24 +80,21 @@ export default function DashboardLayout() {
             className="md:hidden rounded-md border border-line px-3 py-2 text-sm"
             onClick={() => setOpen(true)}
           >
-            Menu
+            {t('Menu')}
           </button>
-          {profile.role === 'patient' && <span className="text-sm text-muted">Patient portal</span>}
+          {profile.role === 'patient' && <span className="text-sm text-muted">{t('Patient portal')}</span>}
           {canSearch && (
             <form onSubmit={search} className="flex-1 max-w-md">
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 className="w-full rounded-lg border border-line bg-field px-3 py-2 text-sm"
-                placeholder="Search by patient ID, name or purok"
+                placeholder={t('Search by patient ID, name or purok')}
                 aria-label="Search patients"
               />
             </form>
           )}
-          <div className="ml-auto inline-flex rounded-md border border-line overflow-hidden text-xs font-medium">
-            <span className="bg-brand-teal text-white px-3 py-1.5">English</span>
-            <span className="px-3 py-1.5 text-muted">Bisaya</span>
-          </div>
+          <LangToggle className="ml-auto" />
         </header>
 
         <main className="flex-1 overflow-y-auto p-6">
