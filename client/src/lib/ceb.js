@@ -47,6 +47,20 @@ export const CEB = {
     'Ang imong account wala pa nakakonekta sa rekord sa pasyente. Palihog pangutana sa imong barangay health worker.',
   'You have no appointments yet.': 'Wala pa kay appointment.',
 
+  // Reminders card
+  'Appointment reminders': 'Mga pahibalo sa appointment',
+  'Get a message on this phone 1 day before each appointment.': 'Makadawat og mensahe niini nga telepono 1 ka adlaw sa dili pa ang matag appointment.',
+  'Turn on reminders': 'I-on ang mga pahibalo',
+  'Turn off': 'I-off',
+  'Send me a test': 'Padad-an ko og test',
+  'Reminders are on for this phone. You get a message 1 day before your appointment.': 'Naka-on ang mga pahibalo niini nga telepono. Makadawat ka og mensahe 1 ka adlaw sa dili pa ang imong appointment.',
+  'Test sent. Check your notifications.': 'Napadala na ang test. Tan-awa ang imong mga notification.',
+  'No phone is registered yet. Turn on reminders first.': 'Wala pay telepono nga narehistro. I-on una ang mga pahibalo.',
+  'On iPhone: tap Share, then "Add to Home Screen", then open AgapayIsip+ from your home screen and come back here.': 'Sa iPhone: i-tap ang Share, dayon "Add to Home Screen", ablihi ang AgapayIsip+ gikan sa imong home screen ug balik dinhi.',
+  'This browser cannot show reminders. Try Chrome on your phone.': 'Dili makapakita og pahibalo kini nga browser. Sulayi ang Chrome sa imong telepono.',
+  'Reminders are not set up yet.': 'Wala pa na-set up ang mga pahibalo.',
+  'Notifications are blocked. Allow them for this site in your browser settings, then reload.': 'Gi-block ang mga notification. I-allow kini para niini nga site sa settings sa browser, dayon i-reload.',
+
   // Cannot attend
   'I cannot attend': 'Dili ko makaadto',
   'Tell the clinic why you cannot come. {doctor} will choose a new date.': 'Isulti sa clinic ngano nga dili ka makaadto. Si {doctor} mopili og bag-ong petsa.',

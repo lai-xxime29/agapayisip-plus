@@ -4,6 +4,7 @@ import { usePatientData } from '../lib/usePatientData'
 import { longDate, greeting, time12, dateWithYear } from '../lib/format'
 import { Badge } from '../components/ui'
 import { useLang } from '../lib/i18n'
+import ReminderCard from '../components/ReminderCard'
 
 const CLINIC = import.meta.env.VITE_CLINIC_NAME || 'RHU Dalaguete'
 export const STATUS = { completed: ['green', 'Completed'], missed: ['red', 'Missed'], upcoming: ['blue', 'Upcoming'], reschedule_requested: ['amber', 'Reschedule requested'], rescheduled: ['gray', 'Rescheduled'] }
@@ -76,6 +77,7 @@ export default function PatientHome() {
         </div>
 
         <aside className="space-y-5">
+          <ReminderCard />
           <section className="rounded-xl border border-line bg-white">
             <h2 className="px-5 py-4 text-base font-sans font-semibold">{t('My BHW')}</h2>
             <div className="px-5 pb-5 flex items-center gap-3">
